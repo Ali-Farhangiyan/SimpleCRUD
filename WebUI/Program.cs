@@ -1,6 +1,7 @@
 using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Context;
+using WebUI.PersonProfile;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,7 @@ builder.Services.AddDbContext<DatabaseContext>(option =>
     option.UseSqlServer(builder.Configuration["ConnectionStrings:SqlServerConnection"]);
 });
 
-
+builder.Services.AddAutoMapper(typeof(PersonProfile));
 builder.Services.AddTransient<IDatabaseContext, DatabaseContext>();
 
 var app = builder.Build();
