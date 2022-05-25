@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class PersonRepository
+    public class PersonRepository : IPersonRepository
     {
         private readonly IDatabaseContext db;
         private readonly IMapper mapper;
@@ -42,7 +42,7 @@ namespace Application.Services
             db.People.Add(person);
             int affected = db.SaveChanges();
 
-            if(affected > 0)
+            if (affected > 0)
             {
                 return true;
             }
