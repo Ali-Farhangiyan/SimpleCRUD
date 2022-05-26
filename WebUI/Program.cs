@@ -17,6 +17,7 @@ builder.Services.AddDbContext<DatabaseContext>(option =>
 builder.Services.AddTransient<IPersonRepository, PersonRepository>();
 builder.Services.AddAutoMapper(typeof(PersonProfile));
 builder.Services.AddTransient<IDatabaseContext, DatabaseContext>();
+builder.Services.AddTransient(typeof(PaginatedList<>));
 
 var app = builder.Build();
 

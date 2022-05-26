@@ -13,8 +13,12 @@ namespace WebUI.Controllers
             this.repo = repo;
         }
 
-        public IActionResult Index(string sortOrder, string searchString)
+        public IActionResult Index(string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? pageNumber)
         {
+            ViewData["CurrentSort"] = sortOrder;
             ViewData["FirstNameSorting"] =
                 string.IsNullOrEmpty(sortOrder) ? "firstname" : "";
 
@@ -23,6 +27,14 @@ namespace WebUI.Controllers
 
             ViewData["LastNameSorting"] =
                 string.IsNullOrEmpty(sortOrder) ? "lastname" : "";
+            if(searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             ViewData["CurrentFilter"] = searchString;
 
@@ -31,7 +43,7 @@ namespace WebUI.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 people = people.Where(p => p.LastName.ToLower().Contains(searchString.ToLower())
-                || p.FirstName.ToLower().Contains(searchString.ToLower())).ToList();
+                || p.FirstName.ToLower().Contains(searchString.ToLower())).ToList().AsQueryable();
             }
 
             switch (sortOrder)
@@ -50,7 +62,10 @@ namespace WebUI.Controllers
                     break;
 
             }
-            return View(people);
+
+            int pageSize = 3;
+            var model = PaginatedList<PersonDto>.Create(people, pageNumber ?? 1, pageSize);
+            return View(model);
         }
 
         // Details

@@ -7,7 +7,7 @@ namespace Application.Services
         bool Add(PersonDto personDto);
         bool Delete(int Id);
         PersonDto Get(int Id);
-        IEnumerable<PersonDto> GetAll();
+        IQueryable<PersonDto> GetAll();
         bool Update(int Id, PersonDto personDto);
     }
 }

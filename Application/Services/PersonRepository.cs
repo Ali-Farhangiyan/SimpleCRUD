@@ -22,10 +22,10 @@ namespace Application.Services
         }
 
         // Get All
-        public IEnumerable<PersonDto> GetAll()
+        public IQueryable<PersonDto> GetAll()
         {
             var model = db.People.Select(p => mapper.Map<PersonDto>(p))
-                .ToList().OrderBy(p => p.Id);
+                .ToList().OrderBy(p => p.Id).AsQueryable();
             return model;
         }
 

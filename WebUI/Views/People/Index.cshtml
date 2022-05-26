@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Application.Dto.PersonDto>
+﻿@using Application.Services
+@*@model IEnumerable<Application.Dto.PersonDto>*@
+@model PaginatedList<Application.Dto.PersonDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -23,10 +25,10 @@
         Sorting
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="">@Html.DisplayNameFor(model => model.Id)</a></li>
-        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["AgeSorting"]">@Html.DisplayNameFor(model => model.Age)</a></li>
-        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["FirstNameSorting"]">@Html.DisplayNameFor(model => model.FirstName)</a></li>
-        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["LastNameSorting"]">@Html.DisplayNameFor(model => model.LastName)</a></li>
+        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="">Id</a></li>
+        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["AgeSorting"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Age</a></li>
+        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["FirstNameSorting"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">FirstName</a></li>
+        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["LastNameSorting"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">LastName</a></li>
       </ul>
 </div>
 <br />
@@ -34,7 +36,8 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+@*            <th>
+                
                 @Html.DisplayNameFor(model => model.Id)
             </th>
             <th>
@@ -52,7 +55,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
-            <th></th>
+            <th></th>*@
+            <th>Id</th>
+            <th>Age</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Email</th>
+            <th>PhoneNumber</th>
+            <th>Operation</th>
         </tr>
     </thead>
     <tbody>
@@ -85,3 +95,20 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+    asp-route-sortOrder="@ViewData["CurrentSort"]"
+    asp-route-pageNumber="@(Model.PageIndex - 1)"
+    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+    class="btn btn-primary @prevDisabled">Previous</a>
+
+<a asp-action="Index"
+    asp-route-sortOrder="@ViewData["CurrentSort"]"
+    asp-route-pageNumber="@(Model.PageIndex + 1)"
+    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+    class="btn btn-primary @nextDisabled">Next</a>
