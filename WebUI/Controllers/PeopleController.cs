@@ -13,9 +13,36 @@ namespace WebUI.Controllers
             this.repo = repo;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder)
         {
-            return View(repo.GetAll());
+            ViewData["FirstNameSorting"] =
+                string.IsNullOrEmpty(sortOrder) ? "firstname" : "";
+
+            ViewData["AgeSorting"] =
+                string.IsNullOrEmpty(sortOrder) ? "age" : "";
+
+            ViewData["LastNameSorting"] =
+                string.IsNullOrEmpty(sortOrder) ? "lastname" : "";
+
+            var people = repo.GetAll();
+
+            switch (sortOrder)
+            {
+                case "age":
+                    people = people.OrderBy(p => p.Age);
+                    break;
+                case "firstname":
+                    people = people.OrderBy(p => p.FirstName);
+                    break;
+                case "lastname":
+                    people = people.OrderBy(p => p.LastName);
+                    break;
+                default:
+                    people = people.OrderBy(p => p.Id);
+                    break;
+
+            }
+            return View(people);
         }
 
         // Details

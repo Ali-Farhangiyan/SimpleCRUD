@@ -22,9 +22,11 @@ namespace Application.Services
         }
 
         // Get All
-        public List<PersonDto> GetAll()
+        public IEnumerable<PersonDto> GetAll()
         {
-            return db.People.Select(p => mapper.Map<PersonDto>(p)).ToList();
+            var model = db.People.Select(p => mapper.Map<PersonDto>(p))
+                .ToList().OrderBy(p => p.Id);
+            return model;
         }
 
         // Get 
@@ -82,5 +84,8 @@ namespace Application.Services
 
             return false;
         }
+
+
+
     }
 }

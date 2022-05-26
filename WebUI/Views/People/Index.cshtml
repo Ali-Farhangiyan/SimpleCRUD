@@ -9,6 +9,19 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<div class="dropdown">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        Sorting
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="">@Html.DisplayNameFor(model => model.Id)</a></li>
+        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["AgeSorting"]">@Html.DisplayNameFor(model => model.Age)</a></li>
+        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["FirstNameSorting"]">@Html.DisplayNameFor(model => model.FirstName)</a></li>
+        <li><a class="dropdown-item" asp-action="Index" asp-route-sortOrder="@ViewData["LastNameSorting"]">@Html.DisplayNameFor(model => model.LastName)</a></li>
+      </ul>
+</div>
+<br />
+<br />
 <table class="table">
     <thead>
         <tr>
