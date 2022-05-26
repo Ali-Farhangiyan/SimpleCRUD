@@ -13,7 +13,7 @@ namespace WebUI.Controllers
             this.repo = repo;
         }
 
-        public IActionResult Index(string sortOrder)
+        public IActionResult Index(string sortOrder, string searchString)
         {
             ViewData["FirstNameSorting"] =
                 string.IsNullOrEmpty(sortOrder) ? "firstname" : "";
@@ -24,7 +24,15 @@ namespace WebUI.Controllers
             ViewData["LastNameSorting"] =
                 string.IsNullOrEmpty(sortOrder) ? "lastname" : "";
 
+            ViewData["CurrentFilter"] = searchString;
+
             var people = repo.GetAll();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                people = people.Where(p => p.LastName.ToLower().Contains(searchString.ToLower())
+                || p.FirstName.ToLower().Contains(searchString.ToLower())).ToList();
+            }
 
             switch (sortOrder)
             {
